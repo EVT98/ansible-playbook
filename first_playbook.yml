@@ -1,0 +1,27 @@
+---
+- hosts: ws
+  ignore_errors: True
+  become: True
+  tasks:
+  - name: Create a user
+    user:
+      name: ansible-user
+      comment: Created with ansible
+  - name: Create a file
+    file:
+      path: /tmp/ansiblefile
+      state: touch
+  - name: Create a directory
+    file:
+      path: /tmp/ansibledirectory
+      state: directory
+  - name: install apache
+    package:
+      name: "{{ 'httpd' if ansible_distribution == 'Amazon' else 'apache2' }}"
+      state: present
+    when: ansible_distribution == "Amazon" or ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+  - name: start apache
+    service:
+      name: "{{ 'httpd' if ansible_distribution == 'Amazon' else 'apache2' }}"
+      state: started
+    when: ansible_distribution == "Amazon" or ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
