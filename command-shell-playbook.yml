@@ -1,0 +1,12 @@
+---
+- hosts: ws
+  vars:
+    install_nginx: true
+  ignore_errors: true
+  become: true
+  tasks:
+  - name: command modules - list files in /tmp
+    command: ls /tmp
+
+  - name: shell modules - find all text files
+    shell: ls /tmp | grep .txt
