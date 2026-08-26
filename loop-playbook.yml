@@ -1,0 +1,20 @@
+- hosts: ws
+  ignore_erros: true
+  become: true
+  tasks:
+    - name: loop using with_items
+    yum:
+     name: "{{ item }}"
+     state: present
+    with_items:
+    - unzip
+    - wget
+    - httpd
+
+  - name: loop using loop
+    debug:
+      msg: "Item : {{ item }}"
+    loop:
+      - item1
+      - item2
+      - item3
