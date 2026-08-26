@@ -1,0 +1,19 @@
+---
+- hosts: ws
+  ignore_errors: true
+  become: true
+  vars:
+    my_variable: "Hello World"
+  tasks:
+    - name: Display a message
+      debug:
+        msg: "Message from debug command"
+    
+    - name: Print a variable value
+      debug:
+        var: my_variable
+
+    - name: Print a message if the ansible_distribution is Amazin
+      debug:
+        msg: "You are using Amazon as ansible distribution"
+      when: ansible_distribution == "Amazon"
