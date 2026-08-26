@@ -1,0 +1,39 @@
+---
+- hosts: ws
+  ignore_errors: true
+  become: true
+  tasks:
+       - name: Install Apache
+     yum:
+       name: apache2
+       state: present
+     tags: install
+
+   - name: Start Apache service
+     service:
+       name: apache2
+       state: started
+     tags: start
+
+   - name: Copy website files
+     copy:
+       src: website/
+       dest: /var/www/html/
+     tags: deploy
+
+   - name: Ensure critical updates are installed
+     apt:
+       name: unattended-upgrades
+       state: present
+     tags: always
+
+   - name: Remove temporary files
+     file:
+       path: /tmp/*
+       state: absent
+     tags: never
+
+   - name: Ensure a user exists (no tags)
+     user:
+       name: deploy
+       state: present
