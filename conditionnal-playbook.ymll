@@ -1,0 +1,24 @@
+---
+- hosts: ws
+  ignore_erros: true
+  become: true
+  vars:
+    install_nginx: true
+  tasks: 
+    - name: when conditionn - install httpd if the OS distribution is Redhat
+    yum:
+      name: httpd
+      state: present
+    when: ansible_os_family == "RedHat"
+
+  - name: condition using vars - install nginx
+    yum:
+      name: nginx
+      state: present
+    when: install_nginx
+
+  - name: Multiple condition - restart service only on Ubutun 22.04
+    service:
+      name: nginx
+      state: restarted
+    when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version']
