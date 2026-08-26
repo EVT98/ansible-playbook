@@ -1,0 +1,12 @@
+---
+- hosts: ws
+  ignore_errors: true
+  become: true
+  tasks:
+  - name: check system uptime
+    command: uptime
+    register: uptime_result
+
+  - name: Display systemuptime
+    debug:
+     var: uptime_result
